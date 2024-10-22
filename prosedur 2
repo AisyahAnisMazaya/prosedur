@@ -1,0 +1,48 @@
+package main
+
+import (
+	"fmt"
+)
+
+func hitungSkor(waktu []int, soal *int, skor *int) {
+	for i := 0; i < len(waktu); i++ {
+		if waktu[i] <= 300 {
+			*soal++
+			*skor += waktu[i]
+		}
+	}
+}
+
+func cariPemenang(peserta map[string][]int, pemenang *string, maxSoal *int, minSkor *int) {
+	*pemenang = ""
+	*maxSoal = 0
+	*minSkor = 1<<31 - 1
+
+	for nama, waktu := range peserta {
+		var soal, skor int
+		hitungSkor(waktu, &soal, &skor)
+		if soal > *maxSoal || (soal == *maxSoal && skor < *minSkor) {
+			*pemenang = nama
+			*maxSoal = soal
+			*minSkor = skor
+		}
+	}
+}
+
+func main() {
+	peserta := make(map[string][]int)
+	for i := 1; i <= 2; i++ {
+		var nama string
+		fmt.Scan(&nama)
+		waktu := make([]int, 8)
+		for j := 0; j < 8; j++ {
+			fmt.Scan(&waktu[j])
+		}
+		peserta[nama] = waktu
+	}
+
+	var pemenang string
+	var maxSoal, minSkor int
+	cariPemenang(peserta, &pemenang, &maxSoal, &minSkor)
+	fmt.Printf("Pemenang: %s, Soal diselesaikan: %d, Total waktu: %d menit\n", pemenang, maxSoal, minSkor)
+}

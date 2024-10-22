@@ -1,0 +1,44 @@
+package main
+
+import "fmt"
+
+// Fungsi untuk menghitung faktorial
+func faktorial(n int, hasil *int) {
+	*hasil = 1
+	for i := 1; i <= n; i++ {
+		*hasil *= i
+	}
+}
+
+// Fungsi untuk menghitung permutasi
+func permutasi(n, r int, hasil *int) {
+	var faktN, faktNR int
+	faktorial(n, &faktN)
+	faktorial(n-r, &faktNR)
+	*hasil = faktN / faktNR
+}
+
+// Fungsi untuk menghitung kombinasi
+func kombinasi(n, r int, hasil *int) {
+	var faktN, faktR, faktNR int
+	faktorial(n, &faktN)
+	faktorial(r, &faktR)
+	faktorial(n-r, &faktNR)
+	*hasil = faktN / (faktR * faktNR)
+}
+
+func main() {
+	var a, b, c, d int
+	var hasilPermutasiAC, hasilKombinasiAC, hasilPermutasiBD, hasilKombinasiBD int
+
+	fmt.Scan(&a, &b, &c, &d)
+
+	if a >= c && b >= d {
+		permutasi(a, c, &hasilPermutasiAC)
+		kombinasi(a, c, &hasilKombinasiAC)
+		permutasi(b, d, &hasilPermutasiBD)
+		kombinasi(b, d, &hasilKombinasiBD)
+		fmt.Println(hasilPermutasiAC, hasilKombinasiAC)
+		fmt.Println(hasilPermutasiBD, hasilKombinasiBD)
+	}
+}
